@@ -12,7 +12,6 @@ namespace EagleRock.Gateway.Controllers
     {
         private static readonly IMapper Mapper;
         private readonly ITrafficDataService _trafficDataService;
-        private readonly ILogger<TrafficDataController> _logger;
 
         static TrafficDataController()
         {
@@ -26,7 +25,6 @@ namespace EagleRock.Gateway.Controllers
         public TrafficDataController(ITrafficDataService trafficDataService, ILogger<TrafficDataController> logger)
         {
             _trafficDataService = trafficDataService;
-            _logger = logger;
         }
 
         [HttpGet]

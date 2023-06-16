@@ -17,6 +17,8 @@ namespace EagleRock.Services
 
         public IEnumerable<string> GetAllKeys()
         {
+            // TODO improve performance by executing SCAN command directly and batching
+
             var db = _redisConnection.GetDatabase();
 
             var keys = _redisConnection.GetServer(_configurationOptions.EndPoints.First()).Keys(database: db.Database);

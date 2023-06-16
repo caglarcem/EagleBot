@@ -1,3 +1,4 @@
+using EagleRock.Gateway;
 using EagleRock.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -5,20 +6,13 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ITrafficDataService, TrafficDataService>();
 builder.Services.AddSingleton<IRedisService, RedisService>();
-
-// TODO remove if we can connect from the services library
-builder.Services.AddDistributedRedisCache(opt =>
-{
-    var url = builder.Configuration["ServiceUrls:RedisService"];
-    opt.Configuration = url;
-    opt.InstanceName = "Redis";
-});
 
 // Build the configuration
 builder.Configuration
@@ -41,6 +35,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -60,7 +56,7 @@ app.Run();
 // MAKE IT EFFICIENT (SCAN)
 
 //VALIDATION 
-//EXCEPTION HANDLING
+//EXCEPTION HANDLING - DONE
 // UNIT TESTING
 
 //RABBITMQ SETUP
