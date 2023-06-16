@@ -1,0 +1,12 @@
+C:\repo\EagleRock\EagleRock\EagleRock.Services\bin\Debug\net6.0\EagleRock.Services.deps.json
+C:\repo\EagleRock\EagleRock\EagleRock.Services\bin\Debug\net6.0\EagleRock.Services.dll
+C:\repo\EagleRock\EagleRock\EagleRock.Services\bin\Debug\net6.0\EagleRock.Services.pdb
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\EagleRock.Services.csproj.AssemblyReference.cache
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\EagleRock.Services.GeneratedMSBuildEditorConfig.editorconfig
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\EagleRock.Services.AssemblyInfoInputs.cache
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\EagleRock.Services.AssemblyInfo.cs
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\EagleRock.Services.csproj.CoreCompileInputs.cache
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\EagleRock.Services.dll
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\refint\EagleRock.Services.dll
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\EagleRock.Services.pdb
+C:\repo\EagleRock\EagleRock\EagleRock.Services\obj\Debug\net6.0\ref\EagleRock.Services.dll

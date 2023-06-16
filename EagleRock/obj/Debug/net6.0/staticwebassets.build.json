@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "/hIo8ASuabDUSmhw659A7jz4tCBJ2ImmG2rsyDTZROE=",
+  "Source": "EagleRock.Gateway",
+  "BasePath": "_content/EagleRock.Gateway",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
