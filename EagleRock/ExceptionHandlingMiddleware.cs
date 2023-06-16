@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using Newtonsoft.Json;
+using StackExchange.Redis;
+using System.Net;
 
 namespace EagleRock.Gateway
 {
@@ -19,7 +21,12 @@ namespace EagleRock.Gateway
             {
                 await _next(context);
             }
-            catch (Exception ex)
+            catch (Exception ex) 
+                when (
+                    !(ex is RedisConnectionException 
+                        || ex is RedisTimeoutException 
+                        || ex is JsonSerializationException
+                    ))
             {
                 _logger.LogError(ex, "An unhandled exception occurred.");
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "tJ1ek3S9QQs1Js2WgFeZyrvxjYdVaE3t1pLWFqnUJ5gqEEUY64KUL+lbBcXR/2MgyMvXPWqGc3hA4JCRiZ0loA==",
+  "dgSpecHash": "VM96nWI+McQdmqSaYq9BBNDc3eI5ToMlp1ogAVmDFSulwAlKvqewBUWG3ncIb8G97jj5Q95OtLcqvGXIcC9Dpg==",
   "success": true,
   "projectFilePath": "C:\\repo\\EagleRock\\EagleRock\\EagleRock.Services\\EagleRock.Services.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,7 @@
     "C:\\Users\\Cem.Caglar\\.nuget\\packages\\microsoft.extensions.configuration.abstractions\\7.0.0\\microsoft.extensions.configuration.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\Cem.Caglar\\.nuget\\packages\\microsoft.extensions.configuration.binder\\7.0.4\\microsoft.extensions.configuration.binder.7.0.4.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.dependencyinjection.abstractions\\2.2.0\\microsoft.extensions.dependencyinjection.abstractions.2.2.0.nupkg.sha512",
+    "C:\\Users\\Cem.Caglar\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.1\\microsoft.extensions.logging.abstractions.7.0.1.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.extensions.options\\2.2.0\\microsoft.extensions.options.2.2.0.nupkg.sha512",
     "C:\\Users\\Cem.Caglar\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",

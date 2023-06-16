@@ -47,3 +47,4 @@ C:\repo\EagleRock\EagleRock\EagleRock\bin\Debug\net6.0\runtimes\win\lib\net6.0\S
 C:\repo\EagleRock\EagleRock\EagleRock\bin\Debug\net6.0\System.Net.Http.Formatting.dll
 C:\repo\EagleRock\EagleRock\EagleRock\bin\Debug\net6.0\System.Web.Http.dll
 C:\repo\EagleRock\EagleRock\EagleRock\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+C:\repo\EagleRock\EagleRock\EagleRock\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
