@@ -20,11 +20,14 @@ namespace EagleRock.Services
             var keys = new List<RedisKey>();
             var db = _redisConnection.GetDatabase();
             var cursor = 0L;
+            var batchSize = 1000;
 
             do
             {
                 // Better performance by directly executing command
-                var scanResult = (RedisResult[])db.Execute("SCAN", cursor, "MATCH", pattern);
+                var batch = db.CreateBatch();
+                var scanResult = (RedisResult[])db.Execute("SCAN", cursor, "MATCH", pattern, "COUNT", batchSize);
+                batch.Execute();
 
                 cursor = (long)scanResult[0];
 
