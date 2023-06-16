@@ -15,15 +15,27 @@ namespace EagleRock.Services
             _redisConnection = ConnectionMultiplexer.Connect(connectionString);
         }
 
-        public IEnumerable<string> GetAllKeys()
+        public async Task<IEnumerable<string>> GetValuesByKeyPattern(string pattern)
         {
-            // TODO improve performance by executing SCAN command directly and batching
-
+            var keys = new List<RedisKey>();
             var db = _redisConnection.GetDatabase();
+            var cursor = 0L;
 
-            var keys = _redisConnection.GetServer(_configurationOptions.EndPoints.First()).Keys(database: db.Database);
+            do
+            {
+                // Better performance by directly executing command
+                var scanResult = (RedisResult[])db.Execute("SCAN", cursor, "MATCH", pattern);
 
-            return keys.Select(x => x.ToString());
+                cursor = (long)scanResult[0];
+
+                var scanKeys = (RedisResult[])scanResult[1];
+
+                keys.AddRange(Array.ConvertAll(scanKeys, key => (RedisKey)key));
+            }
+            while (cursor != 0);
+
+            var values = await db.StringGetAsync(keys.ToArray());
+            return values.Where(x => x != RedisValue.Null).ToArray().ToStringArray();
         }
 
         public async Task<string> GetValue(string key)

@@ -20,12 +20,13 @@ namespace EagleRock.Services
 
         public async Task<IEnumerable<TrafficDataModel>> GetAllTrafficData()
         {
-            var currentKey = string.Empty;
+            var currentValue = string.Empty;
             try
             {
-                var keys = _redisService.GetAllKeys().Where(x => x.StartsWith(EAGLEBOT_REDIS_KEY_PREFIX));
+                // Add wildcard to get EagleBot related data only in case there are other entries in cache.
+                var values = await _redisService.GetValuesByKeyPattern($"{EAGLEBOT_REDIS_KEY_PREFIX}*");
 
-                if(!(keys?.Any() == true))
+                if(!(values?.Any() == true))
                 {
                     return Enumerable.Empty<TrafficDataModel>();
                 }
@@ -33,11 +34,9 @@ namespace EagleRock.Services
                 var trafficDataModels = new List<TrafficDataModel>();
 
                 // Key here is EagleBot_{EagleBotId}_{Timestamp}
-                foreach (var key in keys)
+                foreach (var rawTrafficData in values)
                 {
-                    currentKey = key;
-
-                    var rawTrafficData = await _redisService.GetValue(key);
+                    currentValue = rawTrafficData;
 
                     var trafficData = JsonConvert.DeserializeObject<TrafficDataModel>(rawTrafficData);
 
@@ -56,7 +55,7 @@ namespace EagleRock.Services
             }
             catch (JsonSerializationException jex)
             {
-                _logger.LogError(jex, $" Redis value cannot be deserialized to {nameof(TrafficDataModel)}. Check the value model for key: {currentKey}");
+                _logger.LogError(jex, $" Redis value {currentValue} cannot be deserialized to {nameof(TrafficDataModel)}.");
                 throw;
             }
         }

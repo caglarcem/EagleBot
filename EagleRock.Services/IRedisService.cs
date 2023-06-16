@@ -2,7 +2,7 @@
 {
     public interface IRedisService
     {
-        IEnumerable<string> GetAllKeys();
+        Task<IEnumerable<string>> GetValuesByKeyPattern(string pattern);
 
         Task<string> GetValue(string key);
 
