@@ -34,7 +34,7 @@ namespace EagleRock.Services
                 }
             }
 
-            return new List<TrafficDataModel>();
+            return trafficDataModels;
         }
 
         public async Task<string> SaveTrafficData(TrafficDataModel trafficData)
@@ -45,9 +45,9 @@ namespace EagleRock.Services
 
             if (rawTrafficData != null)
             {
-                // Keep the cache key unique, by large number represented in miliseconds interval
-                var totalMilliseconds = (trafficData.Timestamp - DateTime.MinValue).TotalMilliseconds;
-                var key = $"{EAGLEBOT_REDIS_KEY_PREFIX}{trafficData.EagleBotId}_{totalMilliseconds}";
+                // Make the cache key unique, by using the total microseconds elapsed since min datetime value
+                var totalMicroseconds = (trafficData.Timestamp - DateTime.MinValue).TotalMilliseconds * 1000;
+                var key = $"{EAGLEBOT_REDIS_KEY_PREFIX}{trafficData.EagleBotId}_{totalMicroseconds}";
 
                 await _redisService.SetValue(key, rawTrafficData);
 
