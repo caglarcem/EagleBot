@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using StackExchange.Redis;
-using System.Net;
 
 namespace EagleRock.Gateway
 {
@@ -22,19 +21,35 @@ namespace EagleRock.Gateway
                 await _next(context);
             }
             catch (Exception ex) 
-                when (
-                    !(ex is RedisConnectionException 
+                when ((ex is RedisConnectionException 
                         || ex is RedisTimeoutException 
                         || ex is JsonSerializationException
                     ))
             {
-                _logger.LogError(ex, "An unhandled exception occurred.");
-
-                // Customize the response based on the exception
-                context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-                context.Response.ContentType = "text/plain";
-                await context.Response.WriteAsync("An error occurred. Please try again later.");
+                // Above exceptions are already logged
+                await HandleExceptionAsync(context);
             }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "An unhandled exception occurred. See exception details.");
+
+                await HandleExceptionAsync(context);
+            }
+        }
+
+        private static Task HandleExceptionAsync(HttpContext context)
+        {
+            // Log the exception or perform any other custom error handling tasks
+
+            var response = new
+            {
+                StatusCode = StatusCodes.Status500InternalServerError,
+                Message = "An error occurred. Please try again later."
+            };
+
+            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
+            context.Response.ContentType = "application/json";
+            return context.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }
     }
 

@@ -47,17 +47,21 @@ namespace EagleRock.Gateway.Controllers
         [ProducesResponseType(typeof(IEnumerable<TrafficDataDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> LatestTrafficDataOfActiveBots()
         {
-            throw new NotImplementedException();
+            var result = await _trafficDataService.GetLatestTrafficDataOfActiveBots();
+
+            return Ok(result);
         }
 
         /// <summary>
         ///     Returns the latest data of the specified EagleBot.
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<TrafficDataDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TrafficDataDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> LatestTrafficDataByEagleBot(string eagleBotId)
         {
-            throw new NotImplementedException();
+            var result = await _trafficDataService.GetLatestTrafficDataByEagleBot(eagleBotId);
+
+            return Ok(result);
         }
 
         /// <summary>
