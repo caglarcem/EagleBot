@@ -32,7 +32,7 @@ namespace EagleRock.Gateway.Controllers
         /// </summary>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<TrafficDataDto>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> TrafficData()
+        public async Task<IActionResult> AllTrafficData()
         {
             var result = await _trafficDataService.GetAllTrafficData();
 

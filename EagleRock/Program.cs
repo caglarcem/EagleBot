@@ -1,3 +1,4 @@
+using AspNetCoreRateLimit;
 using EagleRock.Gateway;
 using EagleRock.Services;
 
@@ -10,6 +11,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddMemoryCache();
+builder.Services.AddInMemoryRateLimiting();
+builder.Services.Configure<IpRateLimitOptions>(builder.Configuration.GetSection("IpRateLimiting"));
+builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection("IpRateLimitPolicies"));
+builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
+builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
 
 builder.Services.AddScoped<ITrafficDataService, TrafficDataService>();
 builder.Services.AddSingleton<IRedisService, RedisService>();
