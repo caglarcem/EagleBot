@@ -103,28 +103,21 @@ namespace EagleRock.Services
             }
         }
 
-        public async Task<string> SaveTrafficData(TrafficDataModel trafficData)
+        public async Task SaveTrafficData(TrafficDataModel trafficData)
         {
             try
             {
-                if (trafficData == null) return string.Empty    ;
+                if (trafficData == null) return;
 
                 trafficData.Timestamp = DateTime.Now;
 
                 var rawTrafficData = JsonConvert.SerializeObject(trafficData);
 
-                if (rawTrafficData != null)
-                {
-                    // Make the cache key unique, by using the total microseconds elapsed since min datetime value
-                    var totalMicroseconds = (trafficData.Timestamp - DateTime.MinValue).TotalMilliseconds * 1000;
-                    var key = $"{EAGLEBOT_REDIS_KEY_PREFIX}_{trafficData.EagleBotId}_{totalMicroseconds}";
+                // Make the cache key unique, by using the total microseconds elapsed since min datetime value
+                var totalMicroseconds = (trafficData.Timestamp - DateTime.MinValue).TotalMilliseconds * 1000;
+                var key = $"{EAGLEBOT_REDIS_KEY_PREFIX}_{trafficData.EagleBotId}_{totalMicroseconds}";
 
-                    await _redisService.SetValue(key, rawTrafficData);
-
-                    return key;
-                }
-
-                return string.Empty;
+                await _redisService.SetValue(key, rawTrafficData);
             }
             catch (Exception ex) when (ex is RedisConnectionException || ex is RedisTimeoutException)
             {

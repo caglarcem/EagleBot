@@ -60,6 +60,11 @@ namespace EagleRock.Gateway.Controllers
         public async Task<IActionResult> LatestTrafficDataByEagleBot(string eagleBotId)
         {
             var result = await _trafficDataService.GetLatestTrafficDataByEagleBot(eagleBotId);
+            
+            if (result == null)
+            {
+                return NotFound();
+            }
 
             return Ok(result);
         }
@@ -80,9 +85,9 @@ namespace EagleRock.Gateway.Controllers
 
             var trafficDataModel = Mapper.Map<TrafficDataModel>(trafficData);
 
-            var result = await _trafficDataService.SaveTrafficData(trafficDataModel);
+            await _trafficDataService.SaveTrafficData(trafficDataModel);
 
-            return Ok(result);
+            return Ok();
         }
     }
 }

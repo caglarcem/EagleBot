@@ -13,12 +13,6 @@ namespace EagleRock.Services
             _redisConnection = ConnectionMultiplexer.Connect(connectionString);
         }
 
-        public async Task<string> GetValue(string key)
-        {
-            var db = _redisConnection.GetDatabase();
-            return await db.StringGetAsync(key);
-        }
-
         public async Task SetValue(string key, string value)
         {
             var db = _redisConnection.GetDatabase();
