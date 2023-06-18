@@ -3,6 +3,7 @@ using EagleRock.Gateway;
 using EagleRock.Services;
 using EagleRock.Services.Interfaces;
 using StackExchange.Redis;
+using EagleRock.Services.MessageBroker;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,24 @@ builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection
 builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+var rabbitMQClient = new RabbitMQClient(
+        builder.Configuration["RabbitMQ:Host"],
+        builder.Configuration.GetValue<int>("RabbitMQ:Port"),
+        builder.Configuration["RabbitMQ:Username"],
+        builder.Configuration["RabbitMQ:Password"]);
+
+builder.Services.AddSingleton<RabbitMQClient>(provider => rabbitMQClient);
+
+var redisSubscriber = new RedisSubscriber(
+        rabbitMQClient,
+        builder.Configuration["Redis:ConnectionString"],
+        builder.Configuration["Redis:ChannelName"]);
+
+builder.Services.AddSingleton<RedisSubscriber>(provider => redisSubscriber);
+    
+
+
 builder.Services.AddScoped<ITrafficDataService, TrafficDataService>();
 
 var redis = ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("Redis:ConnectionString"));
