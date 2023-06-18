@@ -1,6 +1,9 @@
 using AspNetCoreRateLimit;
 using EagleRock.Gateway;
 using EagleRock.Services;
+using EagleRock.Services.Interfaces;
+using StackExchange.Redis;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +22,12 @@ builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection
 builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
-
-
 builder.Services.AddScoped<ITrafficDataService, TrafficDataService>();
+
+var redis = ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("Redis:ConnectionString"));
+builder.Services.AddSingleton<IDatabase>(provider => redis.GetDatabase());
 builder.Services.AddSingleton<IRedisService, RedisService>();
+builder.Services.AddSingleton<IRedisCommand, RedisCommand>();
 
 // Build the configuration
 builder.Configuration
@@ -67,12 +72,9 @@ app.Run();
 //VALIDATION - DONE
 //EXCEPTION HANDLING - DONE
 //IMPROVE REDIS READ PERFORMANCE - DONE
-
-//IMPLEMENT GETTING ACTIVE LATEST DATA
-
-//THROTTLING
-//UNIT TESTS
-//RABBITMQ SETUP
+//IMPLEMENT GETTING ACTIVE LATEST DATA - DONE
+//THROTTLING - DONE
+//RABBITMQ SETUP - DONE
 //AUTHENTICATION mechanism
-
+// TEST RABBITMQ
 // LOAD TESTING
