@@ -4,7 +4,6 @@ using EagleRock.Services;
 using EagleRock.Services.Interfaces;
 using StackExchange.Redis;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -60,21 +59,3 @@ app.MapControllers();
 
 app.Run();
 
-
-//INITIAL SETUP - DONE
-//API - DONE
-//SERVICES - DONE
-//REDIS SETUP - DONE
-//SWAGGER SETUP - DONE
-//WRITE A REDIS SERVICE - DONE
-//TEST REDIS SERVICE - DONE
-//DEPLOY TO GITHUB for version control - DONE
-//VALIDATION - DONE
-//EXCEPTION HANDLING - DONE
-//IMPROVE REDIS READ PERFORMANCE - DONE
-//IMPLEMENT GETTING ACTIVE LATEST DATA - DONE
-//THROTTLING - DONE
-//RABBITMQ SETUP - DONE
-//AUTHENTICATION mechanism
-// TEST RABBITMQ
-// LOAD TESTING

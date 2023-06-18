@@ -90,10 +90,10 @@ namespace EagleRock.Services.Tests
 
             var redisService = new RedisService(_mockDatabase.Object, _mockRedisCommand.Object);
 
-            // When values by recent timestamp (greater than a number) are requested
+            // When values by minimum number are requested
             var result = await redisService.GetValuesByKeyMinimumValue(pattern, '_', 2, 1001);
 
-            // Then the values are returned
+            // Then the values with greater number are returned
             Assert.NotNull(result);
             Assert.Equal(2, result.Count());
             Assert.Contains("value_1011", result);
