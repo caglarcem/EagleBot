@@ -31,20 +31,21 @@ namespace EagleRock.Services.Tests
 
             var redisService = new RedisService(_mockDatabase.Object, _mockRedisCommand.Object);
 
-            // When 
+            // When values are set in redis
             await redisService.SetValue(key, value);
 
-            // Then
+            // Then the SetString method is called
             _mockDatabase.Verify(db => db.StringSetAsync(key, value, null, When.Always, CommandFlags.None), Times.Once);
         }
 
         [Fact]
         public async Task ShouldGetValuesByKeyPattern()
         {
-            // Given
+            // Given a key pattern
             var pattern = "key*";
-
             var cursor = 0L;
+
+            //  and keys and values in Redis
             var scanKeys = new string[] { "key1", "key2", "tea"};
 
             _mockDatabase.Setup(db => db.StringGetAsync(It.IsAny<RedisKey[]>(), CommandFlags.None))
@@ -54,40 +55,49 @@ namespace EagleRock.Services.Tests
                                 "value2"
                              });
 
-            _mockRedisCommand.Setup(x => x.Execute(0, "key*", 100)).Returns((0, new string[] { "key1", "key2" }));
+            _mockRedisCommand.Setup(x => x.Execute(cursor, "key*", 100)).Returns((0, new string[] { "key1", "key2" }));
 
             var redisService = new RedisService(_mockDatabase.Object, _mockRedisCommand.Object);
 
-            // When
+            // When values by pattern are requested
             var result = await redisService.GetValuesByKeyPattern(pattern);
 
-            // Then
+            // Then the values are returned
             Assert.NotNull(result);
             Assert.Equal(2, result.Count());
             Assert.Contains("value1", result);
             Assert.Contains("value2", result);
         }
 
-        //[Fact]
-        //public void ShouldGetValuesByKeyMinimumValue()
-        //{
-        //    // Given
+        [Fact]
+        public async Task ShouldGetValuesByKeyMinimumValue()
+        {
+            // Given a key pattern
+            var pattern = "key*";
+            var cursor = 0L;
 
-        //    // When
+            //  and keys and values in Redis
+            var scanKeys = new string[] { "key_1000", "key_1011", "key_1022", "tea_1022" };
 
-        //    // Then
+            _mockDatabase.Setup(db => db.StringGetAsync(It.IsAny<RedisKey[]>(), CommandFlags.None))
+                             .ReturnsAsync(new RedisValue[]
+                             {
+                                "value_1011",
+                                "value_1022"
+                             });
 
-        //}
+            _mockRedisCommand.Setup(x => x.Execute(cursor, "key*", 1000)).Returns((0, new string[] { "key_1011", "key_1022" }));
 
-        //[Fact]
-        //public void ShouldSaveTrafficData()
-        //{
-        //    // Given
+            var redisService = new RedisService(_mockDatabase.Object, _mockRedisCommand.Object);
 
-        //    // When
+            // When values by recent timestamp (greater than a number) are requested
+            var result = await redisService.GetValuesByKeyMinimumValue(pattern, '_', 2, 1001);
 
-        //    // Then
-
-        //}
+            // Then the values are returned
+            Assert.NotNull(result);
+            Assert.Equal(2, result.Count());
+            Assert.Contains("value_1011", result);
+            Assert.Contains("value_1022", result);
+        }
     }
 }
