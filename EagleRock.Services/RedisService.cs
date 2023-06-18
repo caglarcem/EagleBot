@@ -9,7 +9,7 @@ namespace EagleRock.Services
 
         public RedisService(IConfiguration configuration)
         {
-            var connectionString = configuration["ServiceUrls:RedisService"];
+            var connectionString = configuration["Redis:ConnectionString"];
             _redisConnection = ConnectionMultiplexer.Connect(connectionString);
         }
 
