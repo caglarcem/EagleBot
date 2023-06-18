@@ -1,6 +1,7 @@
 using AspNetCoreRateLimit;
 using EagleRock.Gateway;
 using EagleRock.Services;
+using EagleRock.Services.MessageBroker;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,19 @@ builder.Services.Configure<IpRateLimitPolicies>(builder.Configuration.GetSection
 builder.Services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
 builder.Services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
 builder.Services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+
+var rabbitMQClient = new RabbitMQClient(
+        builder.Configuration["RabbitMQ:Host"],
+        builder.Configuration.GetValue<int>("RabbitMQ:Port"),
+        builder.Configuration["RabbitMQ:Username"],
+        builder.Configuration["RabbitMQ:Password"]);
+
+builder.Services.AddSingleton<RabbitMQClient>(provider => rabbitMQClient);
+builder.Services.AddSingleton<RedisSubscriber>(provider =>
+    new RedisSubscriber(
+        rabbitMQClient,
+        builder.Configuration["Redis:ConnectionString"],
+        builder.Configuration["Redis:ChannelName"]));
 
 
 builder.Services.AddScoped<ITrafficDataService, TrafficDataService>();
@@ -67,12 +81,14 @@ app.Run();
 //VALIDATION - DONE
 //EXCEPTION HANDLING - DONE
 //IMPROVE REDIS READ PERFORMANCE - DONE
+//IMPLEMENT GETTING ACTIVE LATEST DATA - DONE
+//THROTTLING - DONE (test with load testing)
+//UNIT TESTS - DONE
 
-//IMPLEMENT GETTING ACTIVE LATEST DATA
+//REDIS UNIT TESTS
 
-//THROTTLING
-//UNIT TESTS
 //RABBITMQ SETUP
 //AUTHENTICATION mechanism
 
-// LOAD TESTING
+//LOAD TESTING
+//API END TO END TESTING
