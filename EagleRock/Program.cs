@@ -1,6 +1,8 @@
 using AspNetCoreRateLimit;
 using EagleRock.Gateway;
 using EagleRock.Services;
+using EagleRock.Services.Interfaces;
+using StackExchange.Redis;
 using EagleRock.Services.MessageBroker;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +38,11 @@ builder.Services.AddSingleton<RedisSubscriber>(provider =>
 
 
 builder.Services.AddScoped<ITrafficDataService, TrafficDataService>();
+
+var redis = ConnectionMultiplexer.Connect(builder.Configuration.GetValue<string>("Redis:ConnectionString"));
+builder.Services.AddSingleton<IDatabase>(provider => redis.GetDatabase());
 builder.Services.AddSingleton<IRedisService, RedisService>();
+builder.Services.AddSingleton<IRedisCommand, RedisCommand>();
 
 // Build the configuration
 builder.Configuration
@@ -69,26 +75,3 @@ app.MapControllers();
 
 app.Run();
 
-
-//INITIAL SETUP - DONE
-//API - DONE
-//SERVICES - DONE
-//REDIS SETUP - DONE
-//SWAGGER SETUP - DONE
-//WRITE A REDIS SERVICE - DONE
-//TEST REDIS SERVICE - DONE
-//DEPLOY TO GITHUB for version control - DONE
-//VALIDATION - DONE
-//EXCEPTION HANDLING - DONE
-//IMPROVE REDIS READ PERFORMANCE - DONE
-//IMPLEMENT GETTING ACTIVE LATEST DATA - DONE
-//THROTTLING - DONE (test with load testing)
-//UNIT TESTS - DONE
-
-//REDIS UNIT TESTS
-
-//RABBITMQ SETUP
-//AUTHENTICATION mechanism
-
-//LOAD TESTING
-//API END TO END TESTING
