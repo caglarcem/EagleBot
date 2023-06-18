@@ -30,11 +30,14 @@ var rabbitMQClient = new RabbitMQClient(
         builder.Configuration["RabbitMQ:Password"]);
 
 builder.Services.AddSingleton<RabbitMQClient>(provider => rabbitMQClient);
-builder.Services.AddSingleton<RedisSubscriber>(provider =>
-    new RedisSubscriber(
+
+var redisSubscriber = new RedisSubscriber(
         rabbitMQClient,
         builder.Configuration["Redis:ConnectionString"],
-        builder.Configuration["Redis:ChannelName"]));
+        builder.Configuration["Redis:ChannelName"]);
+
+builder.Services.AddSingleton<RedisSubscriber>(provider => redisSubscriber);
+    
 
 
 builder.Services.AddScoped<ITrafficDataService, TrafficDataService>();

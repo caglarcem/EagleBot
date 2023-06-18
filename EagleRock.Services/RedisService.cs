@@ -17,6 +17,11 @@ namespace EagleRock.Services
         public async Task SetValue(string key, string value)
         {
             await _database.StringSetAsync(key, value);
+
+            string channelName = "event_channel";
+
+            // Publish to Redis subscriber to send to RabbitMQ
+            _database.Publish(channelName, value);
         }
 
         public async Task<IEnumerable<string>> GetValuesByKeyPattern(string pattern)
