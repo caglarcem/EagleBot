@@ -22,7 +22,7 @@ namespace EagleRock.Services.MessageBroker
         {
             using (var model = _rabbitMQClient.CreateModel())
             {
-                model.ExchangeDeclare(exchange: "events_exchange", type: ExchangeType.Topic);
+                model.ExchangeDeclare(exchange: "events_exchange", type: ExchangeType.Topic, true);
                 var body = Encoding.UTF8.GetBytes(message.ToString());
                 model.BasicPublish(exchange: "events_exchange", routingKey: "event.message", basicProperties: null, body: body);
             }
