@@ -33,8 +33,9 @@ builder.Services.AddSingleton<RabbitMQClient>(provider => rabbitMQClient);
 
 var redisSubscriber = new RedisSubscriber(
         rabbitMQClient,
-        builder.Configuration["Redis:ConnectionString"],
-        builder.Configuration["Redis:ChannelName"]);
+            builder.Configuration["Redis:ConnectionString"],
+            builder.Configuration["Redis:ChannelName"]
+        );
 
 builder.Services.AddSingleton<RedisSubscriber>(provider => redisSubscriber);
     

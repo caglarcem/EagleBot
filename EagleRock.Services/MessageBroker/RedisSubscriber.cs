@@ -8,10 +8,12 @@ namespace EagleRock.Services.MessageBroker
     {
         private readonly RabbitMQClient _rabbitMQClient;
         private readonly ISubscriber _subscriber;
+        private readonly SemaphoreSlim _semaphore;
 
         public RedisSubscriber(RabbitMQClient rabbitMQClient, string connectionString, string channelName)
         {
             _rabbitMQClient = rabbitMQClient;
+            _semaphore = new SemaphoreSlim(30);
 
             var connection = ConnectionMultiplexer.Connect(connectionString);
             _subscriber = connection.GetSubscriber();
@@ -20,11 +22,20 @@ namespace EagleRock.Services.MessageBroker
 
         private void OnMessageReceived(RedisChannel channel, RedisValue message)
         {
-            using (var model = _rabbitMQClient.CreateModel())
+            _semaphore.Wait();
+
+            try
             {
-                model.ExchangeDeclare(exchange: "events_exchange", type: ExchangeType.Topic, true);
-                var body = Encoding.UTF8.GetBytes(message.ToString());
-                model.BasicPublish(exchange: "events_exchange", routingKey: "event.message", basicProperties: null, body: body);
+                using (var model = _rabbitMQClient.CreateModel())
+                {
+                    model.ExchangeDeclare(exchange: "events_exchange", type: ExchangeType.Topic, true);
+                    var body = Encoding.UTF8.GetBytes(message.ToString());
+                    model.BasicPublish(exchange: "events_exchange", routingKey: "event.message", basicProperties: null, body: body);
+                }
+            }
+            finally
+            {
+                _semaphore.Release();
             }
         }
     }

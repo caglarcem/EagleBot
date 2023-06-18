@@ -7,6 +7,7 @@ namespace EagleRock.Services
     {
         private readonly IDatabase _database;
         private readonly IRedisCommand _redisCommand;
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(30);
 
         public RedisService(IDatabase database, IRedisCommand redisCommand)
         {
@@ -16,12 +17,21 @@ namespace EagleRock.Services
 
         public async Task SetValue(string key, string value)
         {
-            await _database.StringSetAsync(key, value);
+            _semaphore.Wait();
 
-            string channelName = "event_channel";
+            try
+            {
+                await _database.StringSetAsync(key, value);
 
-            // Publish to Redis subscriber to send to RabbitMQ
-            _database.Publish(channelName, value);
+                string channelName = "event_channel";
+
+                // Publish to Redis subscriber to eventually send to RabbitMQ
+                _database.Publish(channelName, value);
+            }
+            finally
+            {
+                _semaphore.Release();
+            }
         }
 
         public async Task<IEnumerable<string>> GetValuesByKeyPattern(string pattern)
