@@ -122,6 +122,23 @@ namespace EagleRock.Services.Tests
         }
 
         [Fact]
+        public async Task ShouldGetLatestTrafficDataByEagleBotReturnNullWhenNoDataInRedis()
+        {
+            // Given Redis cache with no traffic data values
+            var redisTrafficData = new List<string>();
+
+            _mockRedisService.Setup(x => x.GetValuesByKeyPattern("EagleBot_65644_*")).ReturnsAsync(redisTrafficData);
+
+            var trafficDataService = GetTrafficDataService(_mockRedisService);
+
+            // When latest traffic data is requested
+            var trafficData = await trafficDataService.GetLatestTrafficDataByEagleBot("65644");
+
+            // Then null is returned
+            Assert.Null(trafficData);
+        }
+
+        [Fact]
         public async Task ShouldSaveTrafficData()
         {
             // Given new traffic data
