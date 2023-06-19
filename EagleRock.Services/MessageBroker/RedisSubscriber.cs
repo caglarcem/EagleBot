@@ -13,7 +13,7 @@ namespace EagleRock.Services.MessageBroker
         public RedisSubscriber(RabbitMQClient rabbitMQClient, string connectionString, string channelName)
         {
             _rabbitMQClient = rabbitMQClient;
-            _semaphore = new SemaphoreSlim(30);
+            _semaphore = new SemaphoreSlim(20);
 
             var connection = ConnectionMultiplexer.Connect(connectionString);
             _subscriber = connection.GetSubscriber();

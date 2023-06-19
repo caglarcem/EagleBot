@@ -7,7 +7,7 @@ namespace EagleRock.Services
     {
         private readonly IDatabase _database;
         private readonly IRedisCommand _redisCommand;
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(30);
+        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(20);
 
         public RedisService(IDatabase database, IRedisCommand redisCommand)
         {

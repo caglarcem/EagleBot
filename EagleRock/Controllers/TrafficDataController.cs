@@ -2,11 +2,13 @@ using AutoMapper;
 using EagleRock.Gateway.Dtos;
 using EagleRock.Services;
 using EagleRock.Services.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace EagleRock.Gateway.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     public class TrafficDataController : Controller
     {
