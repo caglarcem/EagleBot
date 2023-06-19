@@ -19,7 +19,8 @@ namespace EagleRock.Gateway.Controllers
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<TrafficDataModel, TrafficDataDto>().ReverseMap();
+                cfg.CreateMap<TrafficDataModel, TrafficDataReadDto>().ReverseMap();
+                cfg.CreateMap<TrafficDataModel, TrafficDataPostDto>().ReverseMap();
             });
             Mapper = new Mapper(config);
         }
@@ -33,7 +34,7 @@ namespace EagleRock.Gateway.Controllers
         ///     Returns all the inspection data of all EagleBots.
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<TrafficDataDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<TrafficDataReadDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> AllTrafficData()
         {
             var result = await _trafficDataService.GetAllTrafficData();
@@ -46,7 +47,7 @@ namespace EagleRock.Gateway.Controllers
         ///     Active EagleBot are bots that have not been sending data for more than 1 hour.
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<TrafficDataDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<TrafficDataReadDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> LatestTrafficDataOfActiveBots()
         {
             var result = await _trafficDataService.GetLatestTrafficDataOfActiveBots();
@@ -58,7 +59,7 @@ namespace EagleRock.Gateway.Controllers
         ///     Returns the latest data of the specified EagleBot.
         /// </summary>
         [HttpGet]
-        [ProducesResponseType(typeof(TrafficDataDto), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(TrafficDataReadDto), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> LatestTrafficDataByEagleBot(string eagleBotId)
         {
             var result = await _trafficDataService.GetLatestTrafficDataByEagleBot(eagleBotId);
@@ -78,7 +79,7 @@ namespace EagleRock.Gateway.Controllers
         /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(typeof(Guid), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> SaveTrafficData([FromBody] TrafficDataDto trafficData)
+        public async Task<IActionResult> SaveTrafficData([FromBody] TrafficDataPostDto trafficData)
         {
             if(string.IsNullOrEmpty(trafficData?.EagleBotId))
             {

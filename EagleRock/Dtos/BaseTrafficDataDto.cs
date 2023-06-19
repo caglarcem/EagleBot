@@ -2,7 +2,7 @@
 
 namespace EagleRock.Gateway.Dtos
 {
-    public class TrafficDataDto
+    public class BaseTrafficDataDto
     {
         /// <summary>
         ///     Unique identifier of the Eagle bot
@@ -33,10 +33,5 @@ namespace EagleRock.Gateway.Dtos
         ///     Current location of the bot
         /// </summary>
         public Location BotLocation { get; set; }
-
-        /// <summary>
-        ///     Date Time the data is saved
-        /// </summary>
-        public DateTime Timestamp { get; set; }
     }
 }
