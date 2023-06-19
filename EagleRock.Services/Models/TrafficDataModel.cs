@@ -33,7 +33,7 @@
         public Location BotLocation { get; set; }
 
         /// <summary>
-        ///     Time the data is saved in total milliseconds since DateTime.MinValue
+        ///     Date Time the data is saved
         /// </summary>
         public DateTime Timestamp { get; set; }
     }

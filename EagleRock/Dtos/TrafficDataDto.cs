@@ -33,5 +33,10 @@ namespace EagleRock.Gateway.Dtos
         ///     Current location of the bot
         /// </summary>
         public Location BotLocation { get; set; }
+
+        /// <summary>
+        ///     Date Time the data is saved
+        /// </summary>
+        public DateTime Timestamp { get; set; }
     }
 }

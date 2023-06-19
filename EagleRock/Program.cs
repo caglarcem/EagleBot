@@ -1,10 +1,10 @@
+using Microsoft.OpenApi.Models;
 using AspNetCoreRateLimit;
 using EagleRock.Gateway;
 using EagleRock.Services;
 using EagleRock.Services.Interfaces;
 using StackExchange.Redis;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.OpenApi.Models;
 using EagleRock.Services.MessageBroker;
 
 var builder = WebApplication.CreateBuilder(args);
