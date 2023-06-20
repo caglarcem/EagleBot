@@ -5,9 +5,14 @@ VisualStudioVersion = 17.1.32414.318
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleRock.Gateway", "EagleRock\EagleRock.Gateway.csproj", "{D7A50284-F241-4A31-B00D-C58EDDD73DC9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleRock.Services", "EagleRock.Services\EagleRock.Services.csproj", "{AA6D3DBB-13D0-4AE7-AA85-D03A9BD5686C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleRock.Services", "EagleRock.Services\EagleRock.Services.csproj", "{AA6D3DBB-13D0-4AE7-AA85-D03A9BD5686C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EagleRock.Services.Tests", "EagleRock.Services.Tests\EagleRock.Services.Tests.csproj", "{A07DD74A-1740-4021-B40F-0BCC49A56091}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EagleRock.Services.Tests", "EagleRock.Services.Tests\EagleRock.Services.Tests.csproj", "{A07DD74A-1740-4021-B40F-0BCC49A56091}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C2EA5F31-5CFB-4B93-BE7F-81EA4C22F657}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
